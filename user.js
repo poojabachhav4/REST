@@ -7,8 +7,6 @@
  const Response = require ('./response');
  this.response = new Response();
 
-
-
  router.use(bodyParser.urlencoded({ extended : false}))
 
  router.use(bodyParser.json())
@@ -20,9 +18,7 @@
     password : "" ,
     database : "datadb"
 })
-
-
- router.get('/getusers' , (req , res) => {
+ router.get('/getusers',  (req , res) => {
 
  pool.getConnection((err , connection) =>{         if(err) 
       console.log(err);
@@ -50,7 +46,7 @@
 
  
 //Display data for specific ID:
-router.get('/:id' , (req , res) => {
+router.get('/getuserid/:id' , (req , res) => {
 
      pool.getConnection((err , connection) =>{
          if(err) 
@@ -79,7 +75,7 @@ router.get('/:id' , (req , res) => {
 
 
  //to delete data of specific ID:
- router.delete('/:id' , (req , res) => {
+ router.delete('/delete/:id' , (req , res) => {
 
      pool.getConnection((err , connection) =>{
          if(err) 
@@ -141,7 +137,7 @@ router.get('/:id' , (req , res) => {
 
 // //data update:
 
- router.put('/update' , (req , res) => {
+ router.put('/update/:id' , (req , res) => {
 
      pool.getConnection((err , connection) =>{
          if(err) throw err
@@ -150,7 +146,7 @@ router.get('/:id' , (req , res) => {
          const { id, FirstName , LastName , address , salary} = req.body;
 
 
-         connection.query('UPDATE data SET address = ? WHERE id = ?',[address,id], (err,rows) =>{
+         connection.query('UPDATE data SET FirstName = ? ,LastName = ? ,address = ? ,salary = ? WHERE id = ?',[FirstName, LastName , address , salary,req.params.id], (err,rows) =>{
          connection.release();
 
 
